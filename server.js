@@ -7,6 +7,7 @@ import "express-async-errors";
 import connectDB from "./config/db.js";
 import testRoute from "./routes/testRoute.js";
 import authRoute from "./routes/authRoute.js";
+import userRoute from "./routes/userRoutes.js";
 import errroMiddelware from "./middelwares/authMiddelware.js";
 
 // env config
@@ -26,6 +27,7 @@ app.use(morgan("dev"));
 // routes
 app.use("/api/v1/test", testRoute);
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/user", userRoute);
 
 // custome middelware
 app.use(errroMiddelware);

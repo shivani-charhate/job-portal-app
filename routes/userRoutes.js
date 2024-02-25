@@ -1,10 +1,9 @@
 import express from "express";
-import { testPostController } from "../controllers/testController.js";
+import { updateUserController } from "../controllers/userController.js";
 import userAuth from "../middelwares/authMiddelware.js";
 
-// router object
 const router = express.Router();
 
-router.post("/test", userAuth, testPostController);
+router.put("/update-user/:id", updateUserController);
 
 export default router;

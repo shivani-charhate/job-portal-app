@@ -1,27 +1,21 @@
-// custome middelware
+import JWT from "jsonwebtoken";
 
-const errroMiddelware = (err, req, res, next) => {
-  console.log(err);
-  const defaultErrors = {
-    statusCode: 500,
-    message: err,
-  };
-
-  // missing filed error
-  if (err.name === "ValidationError") {
-    defaultErrors.statusCode = 400;
-    defaultErrors.message = Object.values(err.errors)
-      .map((item) => item.message)
-      .join(",");
+const userAuth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
+    next("Auth Failed 1");
   }
-  // duplicate error
-  if (err.code && err.code === 11000) {
-    defaultErrors.statusCode = 400;
-    defaultErrors.message = `${Object.keys(
-      err.keyValue
-    )} field has to be unique`;
+  if (typeof req.headers.authorization !== "string") {
+    res.sendStatus(400);
+    return;
   }
-  res.status(defaultErrors.statusCode).json({ message: defaultErrors.message });
+  const token = authHeader.split(" ")[1];
+  try {
+    const payload = JWT.verify(token, process.env.JWT_SECRET);
+    req.user = { userId: payload.userId };
+    next();
+  } catch (error) {
+    next("Auth Failed");
+  }
 };
-
-export default errroMiddelware;
+export default userAuth;
