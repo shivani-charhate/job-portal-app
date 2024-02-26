@@ -4,6 +4,6 @@ import userAuth from "../middelwares/authMiddelware.js";
 
 const router = express.Router();
 
-router.put("/update-user/:id", updateUserController);
+router.put("/update-user/:id", userAuth, updateUserController);
 
 export default router;

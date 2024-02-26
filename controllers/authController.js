@@ -52,5 +52,5 @@ export const loginController = async (req, res, next) => {
 
     token,
   });
-  console.log(user);
+  // console.log(user.id);
 };
