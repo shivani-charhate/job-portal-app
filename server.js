@@ -8,6 +8,7 @@ import connectDB from "./config/db.js";
 import testRoute from "./routes/testRoute.js";
 import authRoute from "./routes/authRoute.js";
 import userRoute from "./routes/userRoutes.js";
+import jobRoute from "./routes/jobsRoute.js";
 import errroMiddelware from "./middelwares/authMiddelware.js";
 
 // env config
@@ -28,6 +29,7 @@ app.use(morgan("dev"));
 app.use("/api/v1/test", testRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/job", jobRoute);
 
 // custome middelware
 app.use(errroMiddelware);
