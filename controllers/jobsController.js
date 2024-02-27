@@ -13,7 +13,25 @@ export const createJobController = async (req, res, next) => {
   });
 };
 export const getAllJobs = async (req, res, next) => {
-  const jobs = await jobsModel.find({ createdBy: req.user.userId });
+  // condition for searchig filters
+  const { status, workType } = req.query;
+
+  const queryObject = {
+    createdBy: req.user.userId,
+  };
+
+  // logic for filter
+  if (status && status !== "all") {
+    queryObject.status = status;
+  }
+  if (workType && workType !== "all") {
+    queryObject.workType = workType;
+  }
+  const queryResult = jobsModel.find(queryObject);
+
+  const jobs = await queryResult;
+
+  // const jobs = await jobsModel.find({ createdBy: req.user.userId });
   res.status(200).json({
     message: "All Jobs Against the User",
     totalJobs: jobs.length,

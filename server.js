@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
 import "express-async-errors";
+import fs from "fs";
 
 import connectDB from "./config/db.js";
 import testRoute from "./routes/testRoute.js";
@@ -10,6 +11,7 @@ import authRoute from "./routes/authRoute.js";
 import userRoute from "./routes/userRoutes.js";
 import jobRoute from "./routes/jobsRoute.js";
 import errroMiddelware from "./middelwares/authMiddelware.js";
+import jobsModel from "./models/jobsModel.js";
 
 // env config
 dotenv.config({ path: "./config/.env" });
@@ -30,6 +32,21 @@ app.use("/api/v1/test", testRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/job", jobRoute);
+
+// external file import
+// const data = JSON.parse(fs.readFileSync("./job-data.json", "utf-8"));
+// // console.log(data);
+// const importData = async () => {
+//   try {
+//     await jobsModel.create(data);
+//     console.log("data successfully imported");
+//     // to exit the process
+//     process.exit();
+//   } catch (error) {
+//     console.log("error", error);
+//   }
+// };
+// importData();
 
 // custome middelware
 app.use(errroMiddelware);
