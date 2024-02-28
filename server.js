@@ -1,3 +1,7 @@
+// Api doc packages
+import swaggerUI, { serve } from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
+
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -25,6 +29,26 @@ dotenv.config({ path: "./config/.env" });
 // mngodb connection
 connectDB();
 
+// add swagger api config
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Job Portal Application",
+      description: "Node Expressjs Job Portal Application",
+      version: "1.0.0",
+    },
+    servers: [
+      {
+        url: "http://localhost:8080",
+      },
+    ],
+  },
+  // to access all route
+  apis: ["./routes/*.js"],
+};
+const spec = swaggerJsDoc(options);
+
 // rest object
 const app = express();
 
@@ -41,6 +65,9 @@ app.use("/api/v1/test", testRoute);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/job", jobRoute);
+
+// route for swagger
+app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(spec));
 
 // external file import
 // const data = JSON.parse(fs.readFileSync("./job-data.json", "utf-8"));
