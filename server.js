@@ -40,7 +40,9 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:8080",
+        // url: "http://localhost:8080",
+        // hosting url
+        url:"https://job-portal-app-qy4q.onrender.com/"
       },
     ],
   },
